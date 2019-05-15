@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.ProgressBar;
@@ -97,7 +99,7 @@ public class CustomHorizontalProgresWithNum extends ProgressBar {
         canvas.save();//save、restore 图层的保存和回滚相关的方法 详见 http://blog.csdn.net/tianjian4592/article/details/45234419
 //        canvas.translate(0,getHeight()/2);//移动图层到垂直居中位置
         float radio = getProgress()*1.0f/getMax();
-        int textWidth = (int) mPaint.measureText(getProgress()+"");//The width of the text
+        int textWidth = (int) mPaint.measureText(getProgress()/10+"");//The width of the text
         float realWidth = getWidth() - getPaddingLeft() - getPaddingRight() - textWidth - HorizontalProgresTextOffset;//实际宽度减去文字宽度
 //        float progressX  = radio * realWidth ;
         float progressX  = radio * mWidth ;
@@ -126,14 +128,29 @@ public class CustomHorizontalProgresWithNum extends ProgressBar {
             }else if (getProgress() >=100){
                 canvas.drawBitmap(icon,progressX - icon.getWidth()/2,getPaddingTop()-icon.getHeight()/2+HorizontalProgresReachHeight/2,new Paint());
             }else {
+
                 canvas.drawBitmap(icon,progressX - icon.getWidth()/2,getPaddingTop()-icon.getHeight()/2+HorizontalProgresReachHeight/2,new Paint());
+
+                //背景边框
+                mPaint.setColor(Color.GREEN);
+                mPaint.setStyle(Paint.Style.STROKE);
+                mPaint.setStrokeWidth(5);
+                RectF rectF1 = new RectF(progressX - (HorizontalProgresTextOffset+textWidth)/2,getPaddingTop()-HorizontalProgresTextSize/3*2,progressX + (HorizontalProgresTextOffset+textWidth)/2,getPaddingTop()+HorizontalProgresTextSize/3);//圆角
+                canvas.drawRoundRect(rectF1,textWidth/5,textWidth/5,mPaint);
+
+                mPaint.setColor(Color.BLUE);
+                mPaint.setStyle(Paint.Style.FILL);
+                mPaint.setStrokeWidth(5);
+                RectF rectF = new RectF(progressX - (HorizontalProgresTextOffset+textWidth)/2,getPaddingTop()-HorizontalProgresTextSize/3*2,progressX + (HorizontalProgresTextOffset+textWidth)/2,getPaddingTop()+HorizontalProgresTextSize/3);//圆角
+                canvas.drawRoundRect(rectF,textWidth/5,textWidth/5,mPaint);
+                mPaint.setColor(HorizontalProgresTextColor);
+                mPaint.setTextSize(HorizontalProgresTextSize);
+                canvas.drawText(getProgress()/10+"",progressX - textWidth/2,getPaddingTop() +5,mPaint);
             }
 
         }
-        canvas.drawRect(progressX - (HorizontalProgresTextOffset+textWidth)/2,getPaddingTop()-HorizontalProgresTextSize/3*2,progressX + (HorizontalProgresTextOffset+textWidth)/2,getPaddingTop()+HorizontalProgresTextSize/3,mPaint);
-        mPaint.setColor(HorizontalProgresTextColor);
-        mPaint.setTextSize(HorizontalProgresTextSize);
-        canvas.drawText(getProgress()+"",progressX - (HorizontalProgresTextOffset+textWidth)/2,getPaddingTop() +5,mPaint);
+
+
 
 
 
