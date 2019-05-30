@@ -12,6 +12,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
+        <com.wgw.medalprogress.view.MarkPic
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
 
         <com.wgw.medalprogress.view.CustomHorizontalProgresNoNum
             android:paddingLeft="10dp"
